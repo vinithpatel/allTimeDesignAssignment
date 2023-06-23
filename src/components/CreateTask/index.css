@@ -1,0 +1,99 @@
+.create-task-card {
+  width: 364px;
+  height: 274px;
+
+  background-color: #edf7fc;
+  border-top: 2px solid #e5e5e5;
+  padding: 10px;
+}
+
+.input-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  margin-bottom: 15px;
+}
+
+.input-label {
+  margin-bottom: 5px;
+
+  font-size: 15px;
+  font-weight: 500;
+  color: #262e39;
+}
+
+.desc-input {
+  width: 100%;
+  height: 35px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  color: #262e39;
+  font-size: 15px;
+
+  outline: none;
+}
+
+.date-time-card {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.date-input {
+  width: 90%;
+  height: 31px;
+  padding: 10px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  color: #262e39;
+  font-size: 15px;
+
+  outline: none;
+}
+
+.buttons-card {
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.cancel-button {
+  width: 80px;
+  height: 29px;
+
+  background-color: transparent;
+  color: #262e39;
+  border: none;
+
+  font-size: 14px;
+
+  margin-right: 10px;
+
+  cursor: pointer;
+  outline: none;
+}
+
+.save-button {
+  width: 80px;
+  height: 29px;
+
+  background-color: #1463ff;
+  color: #ffffff;
+  border-width: 0px;
+  border-radius: 12px;
+
+  font-size: 14px;
+  margin-right: 10px;
+
+  cursor: pointer;
+  outline: none;
+}

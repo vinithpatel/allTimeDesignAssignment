@@ -1,0 +1,66 @@
+* {
+  box-sizing: border-box;
+}
+
+.tasks-bg-container {
+  width: 368px;
+  border: 2px solid #e5e5e5;
+  border-radius: 5px;
+}
+
+.tasks-main-bar {
+  width: 364px;
+  height: 37px;
+
+  padding-left: 8px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tasks-number-card {
+  width: 53px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tasks-heading {
+  color: #31354a;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.tasks-count {
+  font-size: 13px;
+
+  color: #a2a4aa;
+}
+
+.add-task-icon-card {
+  width: 40px;
+  height: 35px;
+
+  border-left: 2px solid #e5e5e5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-task-button {
+  background-color: transparent;
+
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
+.plus-icon {
+  color: #6c6c6d;
+
+  font-size: 16px;
+}
