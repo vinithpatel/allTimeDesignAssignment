@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+.task-card {
+  height: 55px;
+  width: 100%;
+
+  padding-left: 10px;
+  padding-right: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-top: 2px solid #e5e5e5;
+}
+
+.task-left-card {
+  width: 120px;
+
+  display: flex;
+  align-items: center;
+}
+
+.task-circle {
+  height: 27px;
+  width: 27px;
+
+  border-radius: 50%;
+  background-color: #5a99e3;
+  flex-shrink: 0;
+}
+
+.task-information-card {
+  margin-left: 10px;
+}
+
+.task-msg {
+  color: #262e39;
+
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0px;
+  margin-bottom: 0px;
+}
+
+.task-date {
+  color: #d0021b;
+
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0px;
+  margin-top: 0px;
+}
+
+.edit-button {
+  background-color: transparent;
+
+  border-width: 0px;
+
+  cursor: pointer;
+  outline: none;
+}
+
+.edit-icon {
+  color: #464a55;
+
+  font-size: 16px;
+}
