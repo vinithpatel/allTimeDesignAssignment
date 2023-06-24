@@ -71,8 +71,11 @@ class ModifyTask extends Component {
   };
 
   onClickDelete = async () => {
-    const { onDeleteTask } = this.props;
-    onDeleteTask();
+    const isConfirm = confirm("Are you sure want to delete this Task?");
+    if (isConfirm) {
+      const { onDeleteTask } = this.props;
+      onDeleteTask();
+    }
   };
 
   onClickSaveButton = async () => {
