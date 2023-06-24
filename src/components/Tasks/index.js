@@ -26,6 +26,7 @@ class Tasks extends Component {
     results.map((each) => ({
       id: each.id,
       taskDate: each.task_date,
+      taskTime: each.task_time,
       taskMsg: each.task_msg,
       isCompleted: each.is_completed,
     }));
@@ -63,6 +64,10 @@ class Tasks extends Component {
     this.setState({ isAddTask: false });
   };
 
+  updateCreatedTask = () => {
+    this.setState({ isAddTask: false }, this.getTasksData);
+  };
+
   renderTasks = () => {
     const { tasksList } = this.state;
 
@@ -90,7 +95,12 @@ class Tasks extends Component {
             </button>
           </div>
         </div>
-        {isAddTask && <CreateTask onCancelAddTask={this.onCancelAddTask} />}
+        {isAddTask && (
+          <CreateTask
+            onCancelAddTask={this.onCancelAddTask}
+            updateCreatedTask={this.updateCreatedTask}
+          />
+        )}
         {this.renderTasks()}
       </div>
     );
