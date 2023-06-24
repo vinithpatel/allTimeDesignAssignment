@@ -64,8 +64,31 @@ class Tasks extends Component {
     this.setState({ isAddTask: false });
   };
 
-  updateCreatedTask = () => {
-    this.setState({ isAddTask: false }, this.getTasksData);
+  updateCreatedTask = (results) => {
+    const newTask = {
+      id: results.id,
+      taskDate: results.task_date,
+      taskTime: results.task_time,
+      taskMsg: results.task_msg,
+      isCompleted: results.is_completed,
+    };
+
+    this.setState((prevState) => {
+      const { tasksList } = prevState;
+
+      const updatedList = [...tasksList, newTask];
+
+      return {
+        isAddTask: false,
+        tasksList: updatedList,
+      };
+    });
+  };
+
+  deleteTask = (id) => {
+    this.setState((prevState) => ({
+      tasksList: prevState.tasksList.filter((each) => each.id !== id),
+    }));
   };
 
   renderTasks = () => {
@@ -74,7 +97,7 @@ class Tasks extends Component {
     return (
       <ul className="tasks-list">
         {tasksList.map((each) => (
-          <Task key={each.id} taskDetails={each} />
+          <Task key={each.id} taskDetails={each} deleteTask={this.deleteTask} />
         ))}
       </ul>
     );

@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { FaCheck } from "react-icons/fa";
-import { BiSolidPencil, BiSolidBellRing, BiCheck } from "react-icons/bi";
+import { BiSolidPencil, BiSolidBellRing } from "react-icons/bi";
 
 import ModifyTask from "../ModifyTask";
 
@@ -42,13 +42,11 @@ class Task extends Component {
       },
     };
 
-    try {
-      const response = await fetch(url, options);
+    const response = await fetch(url, options);
+    if (response.ok) {
       const { results } = await response.json();
 
       this.setState({ taskDetails: this.getCamelCaseData(results) });
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -60,9 +58,31 @@ class Task extends Component {
     this.setState({ isEditOpen: false });
   };
 
+  onDeleteTask = async () => {
+    const { deleteTask } = this.props;
+    const { taskDetails } = this.state;
+    const { id } = taskDetails;
+
+    const url = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${id}?company_id=${hardCodedValues.companyId}`;
+    const options = {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${hardCodedValues.token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await fetch(url, options);
+
+    if (response.ok) {
+      deleteTask(id);
+    }
+  };
+
   renderTaskCard = () => {
     const { taskDetails } = this.state;
-    const { taskDate, taskMsg, isCompleted } = taskDetails;
+    const { taskDate, taskMsg } = taskDetails;
 
     const getFormatedDate = (date) => {
       const [year, month, day] = date.split("-");
@@ -103,6 +123,7 @@ class Task extends Component {
             taskDetails={taskDetails}
             onCancelUpdateTask={this.onCancelUpdateTask}
             updateTask={this.updateTask}
+            onDeleteTask={this.onDeleteTask}
           />
         )}
         {!isEditOpen && this.renderTaskCard()}

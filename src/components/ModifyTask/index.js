@@ -1,5 +1,6 @@
 import { Component } from "react";
-import { format } from "date-fns";
+
+import { MdDelete } from "react-icons/md";
 
 import "./index.css";
 
@@ -69,6 +70,11 @@ class ModifyTask extends Component {
     this.setState({ taskTime: formatedTime });
   };
 
+  onClickDelete = async () => {
+    const { onDeleteTask } = this.props;
+    onDeleteTask();
+  };
+
   onClickSaveButton = async () => {
     const { id, taskDescription, userId, taskDate, taskTime } = this.state;
     const { updateTask } = this.props;
@@ -92,24 +98,16 @@ class ModifyTask extends Component {
       },
       body: JSON.stringify(taskData),
     };
-    try {
-      const response = await fetch(url, options);
-      const data = await response.json();
-      console.log(data);
+
+    const response = await fetch(url, options);
+
+    if (response.ok) {
       updateTask();
-    } catch (error) {
-      console.log(error);
     }
   };
 
   render() {
-    const {
-      taskDescription,
-      assignedUsers,
-      userId,
-      taskDate,
-      taskTime,
-    } = this.state;
+    const { taskDescription, assignedUsers, userId, taskDate } = this.state;
 
     return (
       <div className="create-task-card">
@@ -156,21 +154,28 @@ class ModifyTask extends Component {
           </select>
         </div>
 
-        <div className="buttons-card">
-          <button
-            type="button"
-            className="cancel-button"
-            onClick={this.onClickCancelButton}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="save-button"
-            onClick={this.onClickSaveButton}
-          >
-            Save
-          </button>
+        <div className="modify-task-buttons-card">
+          <div>
+            <button className="edit-button" onClick={this.onClickDelete}>
+              <MdDelete className="delete-icon" />
+            </button>
+          </div>
+          <div>
+            <button
+              type="button"
+              className="cancel-button"
+              onClick={this.onClickCancelButton}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="save-button"
+              onClick={this.onClickSaveButton}
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
     );

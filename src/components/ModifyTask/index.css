@@ -1,0 +1,12 @@
+.modify-task-buttons-card {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-icon {
+  font-size: 20px;
+  color: #464a55;
+}

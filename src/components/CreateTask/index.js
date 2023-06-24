@@ -94,23 +94,17 @@ class CreateTask extends Component {
       },
       body: JSON.stringify(taskData),
     };
-    try {
-      const response = await fetch(url, options);
-      const data = await response.json();
-      updateCreatedTask();
-    } catch (error) {
-      console.log(error);
+
+    const response = await fetch(url, options);
+
+    if (response.ok) {
+      const { results } = await response.json();
+      updateCreatedTask(results);
     }
   };
 
   render() {
-    const {
-      taskDescription,
-      assignedUsers,
-      userId,
-      taskDate,
-      taskTime,
-    } = this.state;
+    const { taskDescription, assignedUsers, userId, taskDate } = this.state;
 
     return (
       <div className="create-task-card">
@@ -139,7 +133,6 @@ class CreateTask extends Component {
               className="date-input"
               type="time"
               onChange={this.onChangeTime}
-              value={taskTime}
             />
           </div>
         </div>
