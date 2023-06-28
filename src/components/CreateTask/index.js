@@ -109,8 +109,11 @@ class CreateTask extends Component {
     return (
       <div className="create-task-card">
         <div className="input-card">
-          <label className="input-label">Task Description</label>
+          <label htmlFor="createDescField" className="input-label">
+            Task Description
+          </label>
           <input
+            id="createDescField"
             className="desc-input"
             type="text"
             value={taskDescription}
@@ -119,8 +122,11 @@ class CreateTask extends Component {
         </div>
         <div className="date-time-card">
           <div className="input-card">
-            <label className="input-label">Date</label>
+            <label htmlFor="createDateField" className="input-label">
+              Date
+            </label>
             <input
+              id="createDateField"
               className="date-input"
               type="date"
               onChange={this.onChangeDate}
@@ -128,8 +134,11 @@ class CreateTask extends Component {
             />
           </div>
           <div className="input-card">
-            <label className="input-label">Time</label>
+            <label htmlFor="createTimeField" className="input-label">
+              Time
+            </label>
             <input
+              id="createTimeField"
               className="date-input"
               type="time"
               onChange={this.onChangeTime}
@@ -137,8 +146,9 @@ class CreateTask extends Component {
           </div>
         </div>
         <div className="input-card">
-          <label className="input-label">Assign User</label>
+          <label htmlFor="assignUser" className="input-label">Assign User</label>
           <select
+            id="assignUser"
             className="desc-input"
             value={userId}
             onChange={this.onChangeAssignUser}

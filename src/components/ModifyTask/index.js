@@ -71,7 +71,7 @@ class ModifyTask extends Component {
   };
 
   onClickDelete = async () => {
-    const isConfirm = confirm("Are you sure want to delete this Task?");
+    const isConfirm = window.confirm("Are you sure want to delete this Task?");
     if (isConfirm) {
       const { onDeleteTask } = this.props;
       onDeleteTask();
@@ -110,13 +110,16 @@ class ModifyTask extends Component {
   };
 
   render() {
-    const { taskDescription, assignedUsers, userId, taskDate } = this.state;
+    const { id, taskDescription, assignedUsers, userId, taskDate } = this.state;
 
     return (
       <div className="create-task-card">
         <div className="input-card">
-          <label className="input-label">Task Description</label>
+          <label htmlFor={`taskDescription${id}`} className="input-label">
+            Task Description
+          </label>
           <input
+            id={`taskDescription${id}`}
             className="desc-input"
             type="text"
             value={taskDescription}
@@ -125,8 +128,11 @@ class ModifyTask extends Component {
         </div>
         <div className="date-time-card">
           <div className="input-card">
-            <label className="input-label">Date</label>
+            <label htmlFor={`dateField${id}`} className="input-label">
+              Date
+            </label>
             <input
+              id={`dateField${id}`}
               className="date-input"
               type="date"
               onChange={this.onChangeDate}
@@ -134,8 +140,11 @@ class ModifyTask extends Component {
             />
           </div>
           <div className="input-card">
-            <label className="input-label">Time</label>
+            <label htmlFor={`timeField${id}`} className="input-label">
+              Time
+            </label>
             <input
+              id={`timeField${id}`}
               className="date-input"
               type="time"
               onChange={this.onChangeTime}
@@ -143,8 +152,11 @@ class ModifyTask extends Component {
           </div>
         </div>
         <div className="input-card">
-          <label className="input-label">Assign User</label>
+          <label htmlFor={`assignUser${id}`} className="input-label">
+            Assign User
+          </label>
           <select
+            id={`assignUser${id}`}
             className="desc-input"
             value={userId}
             onChange={this.onChangeAssignUser}
