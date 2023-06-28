@@ -1,6 +1,8 @@
 import { Component } from "react";
 import { FaCheck } from "react-icons/fa";
+import { TbLayoutBottombar } from "react-icons/tb";
 import { BiSolidPencil, BiSolidBellRing } from "react-icons/bi";
+import { isFuture } from "date-fns";
 
 import ModifyTask from "../ModifyTask";
 
@@ -80,34 +82,71 @@ class Task extends Component {
     }
   };
 
+  getFormatedDate = (date) => {
+    const [year, month, day] = date.split("-");
+    return [year, month, day];
+  };
+
+  getFormatedTime = (time) => {
+    const timeInMinutes = time / 60;
+
+    const hours = Math.floor(timeInMinutes / 60);
+    const min = timeInMinutes - hours * 60;
+
+    return [hours, min];
+  };
+
+  checkIsFeatureDate = () => {
+    const { taskDetails } = this.state;
+    const { taskDate, taskTime } = taskDetails;
+    const [year, month, day] = this.getFormatedDate(taskDate);
+    const [hours, min] = this.getFormatedTime(taskTime);
+
+    const taskDateObj = new Date(year, month - 1, day, hours, min, 0, 0);
+
+    return isFuture(taskDateObj);
+  };
+
   renderTaskCard = () => {
     const { taskDetails } = this.state;
     const { taskDate, taskMsg } = taskDetails;
+    const [year, month, day] = this.getFormatedDate(taskDate);
 
-    const getFormatedDate = (date) => {
-      const [year, month, day] = date.split("-");
-      return `${month}/${day}/${year}`;
-    };
+    const isFeatureDate = this.checkIsFeatureDate();
+    const taskDateClassName = isFeatureDate ? "feature-date" : "";
+    const taskMsgClassName = isFeatureDate ? "" : "mark-msg";
 
     return (
       <div className="task-card">
         <div className="task-left-card">
           <div className="task-circle"></div>
           <div className="task-information-card">
-            <p className="task-msg">{taskMsg}</p>
-            <p className="task-date">{getFormatedDate(taskDate)}</p>
+            <p className={`task-msg ${taskMsgClassName}`}>{taskMsg}</p>
+            <p
+              className={`task-date ${taskDateClassName}`}
+            >{`${month}/${day}/${year}`}</p>
           </div>
         </div>
         <div className="task-control-card">
           <button className="edit-button" onClick={this.onClickEditButton}>
             <BiSolidPencil className="edit-icon" />
           </button>
-          <button className="edit-button">
-            <BiSolidBellRing className="edit-icon" />
-          </button>
-          <button className="edit-button">
-            <FaCheck className="edit-icon" />
-          </button>
+          {isFeatureDate && (
+            <button className="edit-button">
+              <BiSolidBellRing className="edit-icon" />
+            </button>
+          )}
+
+          {isFeatureDate && (
+            <button className="edit-button">
+              <FaCheck className="edit-icon" />
+            </button>
+          )}
+          {!isFeatureDate && (
+            <button className="edit-button">
+              <TbLayoutBottombar className="edit-icon" />
+            </button>
+          )}
         </div>
       </div>
     );

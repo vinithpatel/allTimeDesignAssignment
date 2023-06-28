@@ -46,8 +46,6 @@
 }
 
 .task-date {
-  color: #d0021b;
-
   font-size: 12px;
   font-weight: 500;
   padding: 0px;
@@ -67,4 +65,12 @@
   color: #464a55;
 
   font-size: 16px;
+}
+
+.feature-date {
+  color: #d0021b;
+}
+
+.mark-msg {
+  text-decoration: line-through;
 }
