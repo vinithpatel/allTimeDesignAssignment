@@ -2,7 +2,7 @@ import { Component } from "react";
 import { FaCheck } from "react-icons/fa";
 import { TbLayoutBottombar } from "react-icons/tb";
 import { BiSolidPencil, BiSolidBellRing } from "react-icons/bi";
-import { isFuture } from "date-fns";
+import { isFuture, format } from "date-fns";
 
 import ModifyTask from "../ModifyTask";
 
@@ -28,27 +28,49 @@ class Task extends Component {
     isCompleted: result.is_completed,
   });
 
-  updateTask = async () => {
+  updateTask = async (taskDescription, userId, dateObj) => {
     const { taskDetails } = this.state;
     const { id } = taskDetails;
 
-    this.setState({ isEditOpen: false });
+    const taskDate = format(dateObj, "yyyy-MM-dd");
+    const taskTime = this.getTaskTimeInSeconds(format(dateObj, "HH:mm"));
 
-    const url = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${id}?company_id=${hardCodedValues.companyId}`;
+    console.log(taskDate);
+    console.log(taskTime);
+
+    const taskData = {
+      assigned_user: userId,
+      task_date: taskDate,
+      task_time: taskTime,
+      is_completed: isFuture(dateObj) ? 0 : 1,
+      time_zone: 19800,
+      task_msg: taskDescription,
+    };
+
+    const url = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${id}?company_id=company_0f8d040401d14916bc2430480d7aa0f8`;
     const options = {
-      method: "GET",
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${hardCodedValues.token}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(taskData),
     };
 
     const response = await fetch(url, options);
-    if (response.ok) {
-      const { results } = await response.json();
+    console.log(response.ok);
 
-      this.setState({ taskDetails: this.getCamelCaseData(results) });
+    if (response.ok) {
+      const newTask = {
+        id,
+        taskDate,
+        taskTime,
+        taskMsg: taskDescription,
+        isCompleted: isFuture(dateObj) ? 0 : 1,
+      };
+
+      this.setState({ taskDetails: newTask, isEditOpen: false });
     }
   };
 
@@ -96,6 +118,13 @@ class Task extends Component {
     return [hours, min];
   };
 
+  getTaskTimeInSeconds = (taskTime) => {
+    let [h, m] = taskTime.split(":");
+    [h, m] = [parseInt(h), parseInt(m)];
+
+    return h * 60 * 60 + m * 60;
+  };
+
   checkIsFeatureDate = () => {
     const { taskDetails } = this.state;
     const { taskDate, taskTime } = taskDetails;
@@ -111,7 +140,6 @@ class Task extends Component {
     const { taskDetails } = this.state;
     const { taskDate, taskMsg } = taskDetails;
     const [year, month, day] = this.getFormatedDate(taskDate);
-
     const isFeatureDate = this.checkIsFeatureDate();
     const taskDateClassName = isFeatureDate ? "feature-date" : "";
     const taskMsgClassName = isFeatureDate ? "" : "mark-msg";
@@ -154,12 +182,18 @@ class Task extends Component {
 
   render() {
     const { isEditOpen, taskDetails } = this.state;
+    const { taskDate, taskTime } = taskDetails;
+    const [year, month, day] = this.getFormatedDate(taskDate);
+    const [hours, min] = this.getFormatedTime(taskTime);
+
+    const taskDateObj = new Date(year, month - 1, day, hours, min, 0, 0);
 
     return (
       <>
         {isEditOpen && (
           <ModifyTask
             taskDetails={taskDetails}
+            taskDateObj={taskDateObj}
             onCancelUpdateTask={this.onCancelUpdateTask}
             updateTask={this.updateTask}
             onDeleteTask={this.onDeleteTask}

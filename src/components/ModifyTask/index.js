@@ -1,7 +1,9 @@
 import { Component } from "react";
-
 import { MdDelete } from "react-icons/md";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
+import TimePicker from "../TimePicker";
 import "./index.css";
 
 const accessToken =
@@ -11,8 +13,7 @@ class ModifyTask extends Component {
   state = {
     id: this.props.taskDetails.id,
     taskDescription: this.props.taskDetails.taskMsg,
-    taskDate: this.props.taskDetails.taskDate,
-    taskTime: this.props.taskDetails.taskTime,
+    dateObj: this.props.taskDateObj,
     assignedUsers: [],
     userId: "user_8c2ff2128e70493fa4cedd2cab97c492",
   };
@@ -57,17 +58,12 @@ class ModifyTask extends Component {
     this.setState({ taskDescription: event.target.value });
   };
 
-  onChangeDate = (event) => {
-    this.setState({ taskDate: event.target.value });
+  onChangeDate = (date) => {
+    this.setState({ dateObj: date });
   };
 
-  onChangeTime = (event) => {
-    let [h, m] = event.target.value.split(":");
-
-    [h, m] = [parseInt(h), parseInt(m)];
-
-    const formatedTime = h * 60 * 60 + m * 60;
-    this.setState({ taskTime: formatedTime });
+  updateTime = (dateObj) => {
+    this.setState({ dateObj });
   };
 
   onClickDelete = async () => {
@@ -79,9 +75,9 @@ class ModifyTask extends Component {
   };
 
   onClickSaveButton = async () => {
-    const { id, taskDescription, userId, taskDate, taskTime } = this.state;
+    const { id, taskDescription, userId, dateObj } = this.state;
     const { updateTask } = this.props;
-
+    /*   
     const taskData = {
       assigned_user: userId,
       task_date: taskDate,
@@ -105,12 +101,21 @@ class ModifyTask extends Component {
     const response = await fetch(url, options);
 
     if (response.ok) {
-      updateTask();
+      
     }
+    */
+    updateTask(taskDescription, userId, dateObj);
   };
 
   render() {
-    const { id, taskDescription, assignedUsers, userId, taskDate } = this.state;
+    const {
+      id,
+      taskDescription,
+      assignedUsers,
+      userId,
+      taskDate,
+      dateObj,
+    } = this.state;
 
     return (
       <div className="create-task-card">
@@ -131,24 +136,19 @@ class ModifyTask extends Component {
             <label htmlFor={`dateField${id}`} className="input-label">
               Date
             </label>
-            <input
+            <DatePicker
+              showIcon
               id={`dateField${id}`}
               className="date-input"
-              type="date"
               onChange={this.onChangeDate}
-              value={taskDate}
+              selected={dateObj}
             />
           </div>
           <div className="input-card">
             <label htmlFor={`timeField${id}`} className="input-label">
               Time
             </label>
-            <input
-              id={`timeField${id}`}
-              className="date-input"
-              type="time"
-              onChange={this.onChangeTime}
-            />
+            <TimePicker dateObj={dateObj} updateTime={this.updateTime} />
           </div>
         </div>
         <div className="input-card">

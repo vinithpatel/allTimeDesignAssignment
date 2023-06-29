@@ -3,14 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ashwinthomas/react-time-picker-dropdown": "^1.0.4",
+    "@syncfusion/ej2-react-calendars": "^22.1.36",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "date-fns": "^2.30.0",
     "react": "^18.2.0",
+    "react-calendar": "^4.3.0",
+    "react-date-picker": "^10.2.0",
+    "react-datepicker": "^4.14.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-scripts": "5.0.1",
+    "react-time-picker": "^6.2.0",
+    "react-time-range": "^1.0.4",
+    "time-input": "^1.6.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

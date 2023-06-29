@@ -56,11 +56,11 @@
   font-size: 15px;
 
   outline: none;
+}
 
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  align-items: center;
+.react-datepicker__calendar-icon {
+  width: 30px !important;
+  height: 30px !important;
 }
 
 .buttons-card {

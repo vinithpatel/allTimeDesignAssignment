@@ -1,0 +1,19 @@
+.time-bg-container {
+  width: 150px;
+  height: 31px;
+
+  padding-left:5px;
+  padding-right:5px;
+
+  background-color: #ffffff;
+
+  display: flex;
+  align-items: center;
+}
+
+.time-dropdown {
+  width: 100%;
+
+  outline:none;
+  border:none;
+}
