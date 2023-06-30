@@ -7,8 +7,6 @@ const TimePicker = (props) => {
   const hours = getHours(dateObj);
   const minutes = getMinutes(dateObj);
 
-  console.log(hours, minutes);
-
   const onChangeTime = (event) => {
     const [uHours, uMinutes] = event.target.value.split(":");
     let updatedDateObj = setHours(dateObj, uHours);

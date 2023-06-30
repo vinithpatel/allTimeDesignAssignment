@@ -1,5 +1,8 @@
 import { Component } from "react";
-import { format } from "date-fns";
+import { format, isFuture } from "date-fns";
+
+import DatePick from "../DatePick";
+import TimePicker from "../TimePicker";
 
 import "./index.css";
 
@@ -9,8 +12,7 @@ const accessToken =
 class CreateTask extends Component {
   state = {
     taskDescription: "Follow up",
-    taskDate: format(new Date(), "yyyy-MM-dd"),
-    taskTime: "00:00",
+    dateObj: new Date(),
     assignedUsers: [],
     userId: "user_8c2ff2128e70493fa4cedd2cab97c492",
   };
@@ -55,12 +57,12 @@ class CreateTask extends Component {
     this.setState({ taskDescription: event.target.value });
   };
 
-  onChangeDate = (event) => {
-    this.setState({ taskDate: event.target.value });
+  onChangeDate = (date) => {
+    this.setState({ dateObj: date });
   };
 
-  onChangeTime = (event) => {
-    this.setState({ taskTime: event.target.value });
+  updateTime = (date) => {
+    this.setState({ dateObj: date });
   };
 
   getTaskTimeInSeconds = (taskTime) => {
@@ -71,14 +73,17 @@ class CreateTask extends Component {
   };
 
   onClickSaveButton = async () => {
-    const { taskDescription, userId, taskDate, taskTime } = this.state;
+    const { taskDescription, userId, dateObj } = this.state;
     const { updateCreatedTask } = this.props;
+
+    const taskDate = format(dateObj, "yyyy-MM-dd");
+    const taskTime = format(dateObj, "HH:mm");
 
     const taskData = {
       assigned_user: userId,
       task_date: taskDate,
       task_time: this.getTaskTimeInSeconds(taskTime),
-      is_completed: 0,
+      is_completed: isFuture(dateObj) ? 0 : 1,
       time_zone: 19800,
       task_msg: taskDescription,
     };
@@ -104,7 +109,7 @@ class CreateTask extends Component {
   };
 
   render() {
-    const { taskDescription, assignedUsers, userId, taskDate } = this.state;
+    const { taskDescription, assignedUsers, userId, dateObj } = this.state;
 
     return (
       <div className="create-task-card">
@@ -125,28 +130,27 @@ class CreateTask extends Component {
             <label htmlFor="createDateField" className="input-label">
               Date
             </label>
-            <input
+            <DatePick
               id="createDateField"
-              className="date-input"
-              type="date"
-              onChange={this.onChangeDate}
-              value={taskDate}
+              onChangeDate={this.onChangeDate}
+              dateObj={dateObj}
             />
           </div>
           <div className="input-card">
             <label htmlFor="createTimeField" className="input-label">
               Time
             </label>
-            <input
+            <TimePicker
               id="createTimeField"
-              className="date-input"
-              type="time"
-              onChange={this.onChangeTime}
+              dateObj={dateObj}
+              updateTime={this.updateTime}
             />
           </div>
         </div>
         <div className="input-card">
-          <label htmlFor="assignUser" className="input-label">Assign User</label>
+          <label htmlFor="assignUser" className="input-label">
+            Assign User
+          </label>
           <select
             id="assignUser"
             className="desc-input"

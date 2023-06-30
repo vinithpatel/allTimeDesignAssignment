@@ -35,9 +35,6 @@ class Task extends Component {
     const taskDate = format(dateObj, "yyyy-MM-dd");
     const taskTime = this.getTaskTimeInSeconds(format(dateObj, "HH:mm"));
 
-    console.log(taskDate);
-    console.log(taskTime);
-
     const taskData = {
       assigned_user: userId,
       task_date: taskDate,
@@ -59,7 +56,6 @@ class Task extends Component {
     };
 
     const response = await fetch(url, options);
-    console.log(response.ok);
 
     if (response.ok) {
       const newTask = {

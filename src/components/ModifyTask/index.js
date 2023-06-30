@@ -1,9 +1,8 @@
 import { Component } from "react";
 import { MdDelete } from "react-icons/md";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 import TimePicker from "../TimePicker";
+import DatePick from "../DatePick";
 import "./index.css";
 
 const accessToken =
@@ -75,7 +74,7 @@ class ModifyTask extends Component {
   };
 
   onClickSaveButton = async () => {
-    const { id, taskDescription, userId, dateObj } = this.state;
+    const { taskDescription, userId, dateObj } = this.state;
     const { updateTask } = this.props;
     /*   
     const taskData = {
@@ -108,14 +107,7 @@ class ModifyTask extends Component {
   };
 
   render() {
-    const {
-      id,
-      taskDescription,
-      assignedUsers,
-      userId,
-      taskDate,
-      dateObj,
-    } = this.state;
+    const { id, taskDescription, assignedUsers, userId, dateObj } = this.state;
 
     return (
       <div className="create-task-card">
@@ -136,19 +128,21 @@ class ModifyTask extends Component {
             <label htmlFor={`dateField${id}`} className="input-label">
               Date
             </label>
-            <DatePicker
-              showIcon
+            <DatePick
               id={`dateField${id}`}
-              className="date-input"
-              onChange={this.onChangeDate}
-              selected={dateObj}
+              onChangeDate={this.onChangeDate}
+              dateObj={dateObj}
             />
           </div>
           <div className="input-card">
             <label htmlFor={`timeField${id}`} className="input-label">
               Time
             </label>
-            <TimePicker dateObj={dateObj} updateTime={this.updateTime} />
+            <TimePicker
+              id={`timeField${id}`}
+              dateObj={dateObj}
+              updateTime={this.updateTime}
+            />
           </div>
         </div>
         <div className="input-card">
