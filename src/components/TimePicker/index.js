@@ -17,7 +17,10 @@ const TimePicker = (props) => {
 
   return (
     <div className="time-bg-container">
-      <BiTimeFive />
+    <button className="time-button">
+        <BiTimeFive className="time-icon" />
+    </button>
+      
       <select
         className="time-dropdown"
         value={`${hours}:${minutes}`}

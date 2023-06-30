@@ -20,14 +20,6 @@ class Task extends Component {
     taskDetails: this.props.taskDetails,
   };
 
-  getCamelCaseData = (result) => ({
-    id: result.id,
-    taskDate: result.task_date,
-    taskTime: result.task_time,
-    taskMsg: result.task_msg,
-    isCompleted: result.is_completed,
-  });
-
   updateTask = async (taskDescription, userId, dateObj) => {
     const { taskDetails } = this.state;
     const { id } = taskDetails;
@@ -134,21 +126,32 @@ class Task extends Component {
 
   renderTaskCard = () => {
     const { taskDetails } = this.state;
-    const { taskDate, taskMsg } = taskDetails;
+    const { taskTime, taskDate, taskMsg } = taskDetails;
     const [year, month, day] = this.getFormatedDate(taskDate);
+    const [hours, min] = this.getFormatedTime(taskTime);
     const isFeatureDate = this.checkIsFeatureDate();
-    const taskDateClassName = isFeatureDate ? "feature-date" : "";
-    const taskMsgClassName = isFeatureDate ? "" : "mark-msg";
+    const taskDateClassName = isFeatureDate ? "feature-date" : "past-date";
+
+    let formatedHours;
+    let format12Hours;
+
+    if (hours < 12) {
+      formatedHours = hours;
+      format12Hours = "am";
+    } else {
+      formatedHours = hours % 12;
+      format12Hours = "pm";
+    }
 
     return (
       <div className="task-card">
         <div className="task-left-card">
           <div className="task-circle"></div>
           <div className="task-information-card">
-            <p className={`task-msg ${taskMsgClassName}`}>{taskMsg}</p>
+            <p className="task-msg">{taskMsg}</p>
             <p
               className={`task-date ${taskDateClassName}`}
-            >{`${month}/${day}/${year}`}</p>
+            >{`${month}/${day}/${year} at ${formatedHours}:${min} ${format12Hours}`}</p>
           </div>
         </div>
         <div className="task-control-card">

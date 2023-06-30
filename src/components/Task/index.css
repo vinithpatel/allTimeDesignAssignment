@@ -50,6 +50,8 @@
   font-weight: 500;
   padding: 0px;
   margin-top: 0px;
+
+  width: 150px;
 }
 
 .edit-button {
@@ -67,10 +69,10 @@
   font-size: 16px;
 }
 
-.feature-date {
+.past-date {
   color: #d0021b;
 }
 
-.mark-msg {
-  text-decoration: line-through;
+.future-date {
+  color: #262e39;
 }
