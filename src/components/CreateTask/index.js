@@ -1,8 +1,9 @@
 import { Component } from "react";
-import { format, isFuture } from "date-fns";
+import { format } from "date-fns";
 
 import DatePick from "../DatePick";
 import TimePicker from "../TimePicker";
+import AssignedUsersContext from "../../context/AssignedUsersContext";
 
 import "./index.css";
 
@@ -13,34 +14,7 @@ class CreateTask extends Component {
   state = {
     taskDescription: "Follow up",
     dateObj: new Date(),
-    assignedUsers: [],
-    userId: "user_8c2ff2128e70493fa4cedd2cab97c492",
-  };
-
-  componentDidMount() {
-    this.getAssignedUserData();
-  }
-
-  getAssignedUserData = async () => {
-    const url =
-      "https://stage.api.sloovi.com/team?product=outreach&company_id=company_0f8d040401d14916bc2430480d7aa0f8";
-
-    const options = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-
-    try {
-      const response = await fetch(url, options);
-      const { results } = await response.json();
-      const { data } = results;
-
-      this.setState({ assignedUsers: data });
-    } catch (error) {
-      console.log(error);
-    }
+    userId: "user_665251f54aec4e96b0e3b3b2d196fb73",
   };
 
   onClickCancelButton = () => {
@@ -83,7 +57,7 @@ class CreateTask extends Component {
       assigned_user: userId,
       task_date: taskDate,
       task_time: this.getTaskTimeInSeconds(taskTime),
-      is_completed: isFuture(dateObj) ? 0 : 1,
+      is_completed: 0,
       time_zone: 19800,
       task_msg: taskDescription,
     };
@@ -109,79 +83,86 @@ class CreateTask extends Component {
   };
 
   render() {
-    const { taskDescription, assignedUsers, userId, dateObj } = this.state;
+    const { taskDescription, userId, dateObj } = this.state;
 
     return (
-      <div className="create-task-card">
-        <div className="input-card">
-          <label htmlFor="createDescField" className="input-label">
-            Task Description
-          </label>
-          <input
-            id="createDescField"
-            className="desc-input"
-            type="text"
-            value={taskDescription}
-            onChange={this.onChangeDesc}
-          />
-        </div>
-        <div className="date-time-card">
-          <div className="input-card">
-            <label htmlFor="createDateField" className="input-label">
-              Date
-            </label>
-            <DatePick
-              id="createDateField"
-              onChangeDate={this.onChangeDate}
-              dateObj={dateObj}
-            />
-          </div>
-          <div className="input-card">
-            <label htmlFor="createTimeField" className="input-label">
-              Time
-            </label>
-            <TimePicker
-              id="createTimeField"
-              dateObj={dateObj}
-              updateTime={this.updateTime}
-            />
-          </div>
-        </div>
-        <div className="input-card">
-          <label htmlFor="assignUser" className="input-label">
-            Assign User
-          </label>
-          <select
-            id="assignUser"
-            className="desc-input"
-            value={userId}
-            onChange={this.onChangeAssignUser}
-          >
-            {assignedUsers.map((each) => (
-              <option key={each.id} value={each.user_id}>
-                {each.name}
-              </option>
-            ))}
-          </select>
-        </div>
+      <AssignedUsersContext.Consumer>
+        {(value) => {
+          const { assignedUsers } = value;
+          return (
+            <div className="create-task-card">
+              <div className="input-card">
+                <label htmlFor="createDescField" className="input-label">
+                  Task Description
+                </label>
+                <input
+                  id="createDescField"
+                  className="desc-input"
+                  type="text"
+                  value={taskDescription}
+                  onChange={this.onChangeDesc}
+                />
+              </div>
+              <div className="date-time-card">
+                <div className="input-card">
+                  <label htmlFor="createDateField" className="input-label">
+                    Date
+                  </label>
+                  <DatePick
+                    id="createDateField"
+                    onChangeDate={this.onChangeDate}
+                    dateObj={dateObj}
+                  />
+                </div>
+                <div className="input-card">
+                  <label htmlFor="createTimeField" className="input-label">
+                    Time
+                  </label>
+                  <TimePicker
+                    id="createTimeField"
+                    dateObj={dateObj}
+                    updateTime={this.updateTime}
+                  />
+                </div>
+              </div>
+              <div className="input-card">
+                <label htmlFor="assignUser" className="input-label">
+                  Assign User
+                </label>
+                <select
+                  id="assignUser"
+                  className="desc-input"
+                  value={userId}
+                  onChange={this.onChangeAssignUser}
+                >
+                  {assignedUsers.map((each) => (
+                    <option key={each.id} value={each.user_id}>
+                      {each.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-        <div className="buttons-card">
-          <button
-            type="button"
-            className="cancel-button"
-            onClick={this.onClickCancelButton}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="save-button"
-            onClick={this.onClickSaveButton}
-          >
-            Save
-          </button>
-        </div>
-      </div>
+              <div className="buttons-card">
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={this.onClickCancelButton}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="save-button"
+                  onClick={this.onClickSaveButton}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          );
+        }}
+      </AssignedUsersContext.Consumer>
     );
   }
 }

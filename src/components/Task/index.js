@@ -18,6 +18,7 @@ class Task extends Component {
   state = {
     isEditOpen: false,
     taskDetails: this.props.taskDetails,
+    isTaskFinish: false,
   };
 
   updateTask = async (taskDescription, userId, dateObj) => {
@@ -31,7 +32,7 @@ class Task extends Component {
       assigned_user: userId,
       task_date: taskDate,
       task_time: taskTime,
-      is_completed: isFuture(dateObj) ? 0 : 1,
+      is_completed: 0,
       time_zone: 19800,
       task_msg: taskDescription,
     };
@@ -55,10 +56,46 @@ class Task extends Component {
         taskDate,
         taskTime,
         taskMsg: taskDescription,
-        isCompleted: isFuture(dateObj) ? 0 : 1,
+        isCompleted: 0,
+        assignedUser: userId,
       };
 
-      this.setState({ taskDetails: newTask, isEditOpen: false });
+      this.setState({
+        taskDetails: newTask,
+        isEditOpen: false,
+        isTaskFinish: false,
+      });
+    }
+  };
+
+  onToggleTaskCheck = async () => {
+    const { isTaskFinish, taskDetails } = this.state;
+    const { id, assignedUser, taskMsg, taskDate, taskTime } = taskDetails;
+
+    const taskData = {
+      assigned_user: assignedUser,
+      task_date: taskDate,
+      task_time: taskTime,
+      time_zone: 19800,
+      task_msg: taskMsg,
+      is_completed: isTaskFinish ? 0 : 1,
+    };
+
+    const url = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${id}?company_id=company_0f8d040401d14916bc2430480d7aa0f8`;
+    const options = {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${hardCodedValues.token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(taskData),
+    };
+
+    const response = await fetch(url, options);
+
+    if (response.ok) {
+      this.setState((prevState) => ({ isTaskFinish: !prevState.isTaskFinish }));
     }
   };
 
@@ -125,17 +162,21 @@ class Task extends Component {
   };
 
   renderTaskCard = () => {
-    const { taskDetails } = this.state;
+    const { taskDetails, isTaskFinish } = this.state;
     const { taskTime, taskDate, taskMsg } = taskDetails;
     const [year, month, day] = this.getFormatedDate(taskDate);
     const [hours, min] = this.getFormatedTime(taskTime);
     const isFeatureDate = this.checkIsFeatureDate();
     const taskDateClassName = isFeatureDate ? "feature-date" : "past-date";
+    const taskMsgClassName = isTaskFinish ? "mark-task" : "";
 
     let formatedHours;
     let format12Hours;
 
-    if (hours < 12) {
+    if (hours === 0 || hours === 12) {
+      formatedHours = 12;
+      format12Hours = hours === 0 ? "am" : "pm";
+    } else if (hours < 12) {
       formatedHours = hours;
       format12Hours = "am";
     } else {
@@ -148,7 +189,7 @@ class Task extends Component {
         <div className="task-left-card">
           <div className="task-circle"></div>
           <div className="task-information-card">
-            <p className="task-msg">{taskMsg}</p>
+            <p className={`task-msg ${taskMsgClassName}`}>{taskMsg}</p>
             <p
               className={`task-date ${taskDateClassName}`}
             >{`${month}/${day}/${year} at ${formatedHours}:${min} ${format12Hours}`}</p>
@@ -158,19 +199,19 @@ class Task extends Component {
           <button className="edit-button" onClick={this.onClickEditButton}>
             <BiSolidPencil className="edit-icon" />
           </button>
-          {isFeatureDate && (
+          {!isTaskFinish && (
             <button className="edit-button">
               <BiSolidBellRing className="edit-icon" />
             </button>
           )}
 
-          {isFeatureDate && (
-            <button className="edit-button">
+          {!isTaskFinish && (
+            <button className="edit-button" onClick={this.onToggleTaskCheck}>
               <FaCheck className="edit-icon" />
             </button>
           )}
-          {!isFeatureDate && (
-            <button className="edit-button">
+          {isTaskFinish && (
+            <button className="edit-button" onClick={this.onToggleTaskCheck}>
               <TbLayoutBottombar className="edit-icon" />
             </button>
           )}

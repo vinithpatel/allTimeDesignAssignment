@@ -76,3 +76,7 @@
 .future-date {
   color: #262e39;
 }
+
+.mark-task {
+  text-decoration: line-through;
+}

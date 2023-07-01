@@ -29,6 +29,7 @@ class Tasks extends Component {
       taskTime: each.task_time,
       taskMsg: each.task_msg,
       isCompleted: each.is_completed,
+      assignedUser: each.assigned_user,
     }));
 
   getTasksData = async () => {
