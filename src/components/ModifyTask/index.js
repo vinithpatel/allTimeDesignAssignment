@@ -95,11 +95,12 @@ class ModifyTask extends Component {
                   />
                 </div>
               </div>
-              {false && (
-                <div className="input-card">
-                  <label htmlFor={`assignUser${id}`} className="input-label">
-                    Assign User
-                  </label>
+
+              <div className="input-card">
+                <label htmlFor={`assignUser${id}`} className="input-label">
+                  Assign User
+                </label>
+                {false && (
                   <select
                     id={`assignUser${id}`}
                     className="desc-input"
@@ -112,16 +113,15 @@ class ModifyTask extends Component {
                       </option>
                     ))}
                   </select>
-                </div>
-              )}
-
-              {assignedUsers.length !== 0 && (
-                <DropDown
-                  userId={userId}
-                  assignedUsers={assignedUsers}
-                  onChangeAssignUser={this.onChangeAssignUser}
-                />
-              )}
+                )}
+                {assignedUsers.length !== 0 && (
+                  <DropDown
+                    userId={userId}
+                    assignedUsers={assignedUsers}
+                    onChangeAssignUser={this.onChangeAssignUser}
+                  />
+                )}
+              </div>
 
               <div className="modify-task-buttons-card">
                 <div>
