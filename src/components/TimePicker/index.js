@@ -17,16 +17,18 @@ const TimePicker = (props) => {
 
   return (
     <div className="time-bg-container">
-    <button className="time-button">
+      <button className="time-button">
         <BiTimeFive className="time-icon" />
-    </button>
-      
+      </button>
+
       <select
         className="time-dropdown"
         value={`${hours}:${minutes}`}
         onChange={onChangeTime}
       >
-        <option defaultChecked>Time</option>
+        <option defaultChecked value={"0:0"}>
+          Time
+        </option>
         <option value={"0:0"}>12:00am</option>
         <option value={"0:30"}>12:30am</option>
         <option value={"1:0"}>01:00am</option>

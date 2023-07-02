@@ -6,10 +6,7 @@ import {
   BiCheck,
 } from "react-icons/bi";
 
-import AssignedUsersContext from "../../context/AssignedUsersContext";
 import "./index.css";
-
-const users = [{ name: "vinith" }, { name: "rahul" }];
 
 class DropDown extends Component {
   state = {
@@ -46,13 +43,14 @@ class DropDown extends Component {
   };
 
   getFileterData = () => {
-      const {searchInput, assignedUsers} = this.state ;
+    const { searchInput, assignedUsers } = this.state;
 
-      const filterData = assignedUsers.filter((each) => (each.name.toLowerCase().includes(searchInput.toLowerCase()))) ;
+    const filterData = assignedUsers.filter((each) =>
+      each.name.toLowerCase().includes(searchInput.toLowerCase())
+    );
 
-      return filterData
-
-  }
+    return filterData;
+  };
 
   renderOption = (each) => {
     const { userId } = this.state;
@@ -79,9 +77,7 @@ class DropDown extends Component {
   };
 
   renderOptions = () => {
-    const { userId, assignedUsers } = this.state;
-
-    const updatedUsers = this.getFileterData()
+    const updatedUsers = this.getFileterData();
 
     return (
       <ul className="drop-down-options-card">
@@ -91,7 +87,7 @@ class DropDown extends Component {
   };
 
   render() {
-    const { userId, isDropDownOpen, searchInput } = this.state;
+    const { isDropDownOpen, searchInput } = this.state;
 
     return (
       <div className="drop-down-bg-container ">

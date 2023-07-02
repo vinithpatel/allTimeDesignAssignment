@@ -5,6 +5,7 @@
 .drop-down-bg-container {
   position: relative;
   width: 344px;
+  margin-bottom: 10px;
 }
 
 .drop-down-container {

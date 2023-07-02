@@ -15,6 +15,7 @@
 
 .time-dropdown {
   width: 150px;
+  appearance: none;
 
   padding-left: 20px;
   border: none;
