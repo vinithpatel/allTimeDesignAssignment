@@ -100,7 +100,7 @@ class ModifyTask extends Component {
                 <label htmlFor={`assignUser${id}`} className="input-label">
                   Assign User
                 </label>
-                {false && (
+                {/* (
                   <select
                     id={`assignUser${id}`}
                     className="desc-input"
@@ -113,7 +113,8 @@ class ModifyTask extends Component {
                       </option>
                     ))}
                   </select>
-                )}
+                )
+                */}
                 {assignedUsers.length !== 0 && (
                   <DropDown
                     userId={userId}

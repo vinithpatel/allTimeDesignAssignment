@@ -146,6 +146,7 @@ class CreateTask extends Component {
                 */}
                 {assignedUsers.length !== 0 && (
                   <DropDown
+                    id="assignUser"
                     userId={userId}
                     assignedUsers={assignedUsers}
                     onChangeAssignUser={this.onChangeAssignUser}
