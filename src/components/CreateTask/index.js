@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import DatePick from "../DatePick";
 import TimePicker from "../TimePicker";
 import AssignedUsersContext from "../../context/AssignedUsersContext";
-
+import DropDown from "../DropDown";
 import "./index.css";
 
 const accessToken =
@@ -23,8 +23,8 @@ class CreateTask extends Component {
     onCancelAddTask();
   };
 
-  onChangeAssignUser = (event) => {
-    this.setState({ userId: event.target.value });
+  onChangeAssignUser = (userId) => {
+    this.setState({ userId });
   };
 
   onChangeDesc = (event) => {
@@ -129,18 +129,28 @@ class CreateTask extends Component {
                 <label htmlFor="assignUser" className="input-label">
                   Assign User
                 </label>
-                <select
-                  id="assignUser"
-                  className="desc-input"
-                  value={userId}
-                  onChange={this.onChangeAssignUser}
-                >
-                  {assignedUsers.map((each) => (
-                    <option key={each.id} value={each.user_id}>
-                      {each.name}
-                    </option>
-                  ))}
-                </select>
+                {/*
+                  <select
+                    id="assignUser"
+                    className="desc-input"
+                    value={userId}
+                    onChange={this.onChangeAssignUser}
+                  >
+                    {assignedUsers.map((each) => (
+                      <option key={each.id} value={each.user_id}>
+                        {each.name}
+                      </option>
+                    ))}
+                  </select>
+                )
+                */}
+                {assignedUsers.length !== 0 && (
+                  <DropDown
+                    userId={userId}
+                    assignedUsers={assignedUsers}
+                    onChangeAssignUser={this.onChangeAssignUser}
+                  />
+                )}
               </div>
 
               <div className="buttons-card">

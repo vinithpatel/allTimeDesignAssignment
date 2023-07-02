@@ -26,7 +26,7 @@ const TimePicker = (props) => {
         value={`${hours}:${minutes}`}
         onChange={onChangeTime}
       >
-        <option defaultChecked value={"0:0"}>
+        <option defaultChecked value="00:00">
           Time
         </option>
         <option value={"0:0"}>12:00am</option>

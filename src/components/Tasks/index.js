@@ -72,6 +72,7 @@ class Tasks extends Component {
       taskTime: results.task_time,
       taskMsg: results.task_msg,
       isCompleted: results.is_completed,
+      assignedUser: results.assigned_user,
     };
 
     this.setState((prevState) => {

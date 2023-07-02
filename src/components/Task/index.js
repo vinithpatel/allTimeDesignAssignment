@@ -69,8 +69,17 @@ class Task extends Component {
   };
 
   onToggleTaskCheck = async () => {
-    const { isTaskFinish, taskDetails } = this.state;
-    const { id, assignedUser, taskMsg, taskDate, taskTime } = taskDetails;
+    let isFinish, taskObj;
+
+    await this.setState((prevState) => {
+      const { isTaskFinish, taskDetails } = prevState;
+      isFinish = isTaskFinish;
+      taskObj = taskDetails;
+
+      return { isTaskFinish: !isTaskFinish };
+    });
+
+    const { id, assignedUser, taskMsg, taskDate, taskTime } = taskObj;
 
     const taskData = {
       assigned_user: assignedUser,
@@ -78,7 +87,7 @@ class Task extends Component {
       task_time: taskTime,
       time_zone: 19800,
       task_msg: taskMsg,
-      is_completed: isTaskFinish ? 0 : 1,
+      is_completed: isFinish ? 0 : 1,
     };
 
     const url = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${id}?company_id=company_0f8d040401d14916bc2430480d7aa0f8`;
@@ -94,7 +103,7 @@ class Task extends Component {
 
     const response = await fetch(url, options);
 
-    if (response.ok) {
+    if (!response.ok) {
       this.setState((prevState) => ({ isTaskFinish: !prevState.isTaskFinish }));
     }
   };
