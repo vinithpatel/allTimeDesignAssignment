@@ -45,6 +45,15 @@ class DropDown extends Component {
     this.setState({ searchInput: event.target.value });
   };
 
+  getFileterData = () => {
+      const {searchInput, assignedUsers} = this.state ;
+
+      const filterData = assignedUsers.filter((each) => (each.name.toLowerCase().includes(searchInput.toLowerCase()))) ;
+
+      return filterData
+
+  }
+
   renderOption = (each) => {
     const { userId } = this.state;
     const { onChangeAssignUser } = this.props;
@@ -71,9 +80,12 @@ class DropDown extends Component {
 
   renderOptions = () => {
     const { userId, assignedUsers } = this.state;
+
+    const updatedUsers = this.getFileterData()
+
     return (
       <ul className="drop-down-options-card">
-        {assignedUsers.map((each) => this.renderOption(each))}
+        {updatedUsers.map((each) => this.renderOption(each))}
       </ul>
     );
   };
