@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 import TimePicker from "../TimePicker";
 import DatePick from "../DatePick";
 import AssignedUsersContext from "../../context/AssignedUsersContext";
+import DropDown from "../DropDown";
 import "./index.css";
 
 class ModifyTask extends Component {
@@ -20,8 +21,8 @@ class ModifyTask extends Component {
     onCancelUpdateTask();
   };
 
-  onChangeAssignUser = (event) => {
-    this.setState({ userId: event.target.value });
+  onChangeAssignUser = (userId) => {
+    this.setState({ userId });
   };
 
   onChangeDesc = (event) => {
@@ -94,23 +95,33 @@ class ModifyTask extends Component {
                   />
                 </div>
               </div>
-              <div className="input-card">
-                <label htmlFor={`assignUser${id}`} className="input-label">
-                  Assign User
-                </label>
-                <select
-                  id={`assignUser${id}`}
-                  className="desc-input"
-                  value={userId}
-                  onChange={this.onChangeAssignUser}
-                >
-                  {assignedUsers.map((each) => (
-                    <option key={each.id} value={each.user_id}>
-                      {each.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {false && (
+                <div className="input-card">
+                  <label htmlFor={`assignUser${id}`} className="input-label">
+                    Assign User
+                  </label>
+                  <select
+                    id={`assignUser${id}`}
+                    className="desc-input"
+                    value={userId}
+                    onChange={this.onChangeAssignUser}
+                  >
+                    {assignedUsers.map((each) => (
+                      <option key={each.id} value={each.user_id}>
+                        {each.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {assignedUsers.length !== 0 && (
+                <DropDown
+                  userId={userId}
+                  assignedUsers={assignedUsers}
+                  onChangeAssignUser={this.onChangeAssignUser}
+                />
+              )}
 
               <div className="modify-task-buttons-card">
                 <div>

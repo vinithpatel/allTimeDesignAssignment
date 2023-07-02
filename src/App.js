@@ -2,7 +2,6 @@ import { Component } from "react";
 
 import Tasks from "./components/Tasks";
 import AssignedUsersContext from "./context/AssignedUsersContext";
-import DropDown from "./components/DropDown" ;
 import "./App.css";
 
 const accessToken =
@@ -53,9 +52,6 @@ class App extends Component {
               </a>
               <p className="add-description-para">Add description,</p>
               <Tasks />
-              {
-                  <DropDown />
-              }
             </div>
           </div>
         </div>
